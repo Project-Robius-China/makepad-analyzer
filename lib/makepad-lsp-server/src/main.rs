@@ -1,11 +1,11 @@
 use anyhow::Result;
 use lsp_server::{Connection, ExtractError, Message, Request, RequestId, Response};
-use lsp_types::{request::Completion, CompletionOptions, InitializeParams, ServerCapabilities, TextDocumentSyncKind, Url};
+use lsp_types::{request::Completion, CompletionItem, CompletionItemKind, CompletionOptions, CompletionResponse, InitializeParams, ServerCapabilities, TextDocumentSyncKind};
 use serde_json::Value;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  eprintln!("Starting Makepad LSP server...");
+  eprintln!("Starting Makepad LSP Server ...");
 
   let (connection, io_threads) = Connection::stdio();
   let server_capabilities = serde_json::to_value(&ServerCapabilities {
@@ -14,37 +14,26 @@ async fn main() -> Result<()> {
     ..Default::default()
   }).unwrap();
 
-  eprintln!("Wating for initialize.....");
+  eprintln!("Wating for initialize ...");
 
   let initialization_params = match connection.initialize(server_capabilities) {
     Ok(it) => it,
     Err(e) => {
-        if e.channel_is_disconnected() {
-            io_threads.join()?;
-        }
-        return Err(e.into());
+      if e.channel_is_disconnected() {
+          io_threads.join()?;
+      }
+      return Err(e.into());
     }
   };
 
   let init_params: InitializeParams = serde_json::from_value(initialization_params)?;
 
-  if let Some(workspace_folders) = init_params.workspace_folders {
-      for folder in workspace_folders {
-        scan_workspace(folder.uri).await?;
-      }
-  }
-
-  eprintln!("Initialized");
+  eprintln!("Got initialize request: {:#?}", init_params);
 
   main_loop(connection)?;
   io_threads.join()?;
 
   Ok(())
-}
-
-async fn scan_workspace(uri: Url) -> Result<bool> {
-  eprintln!("Scanning workspace: {}", uri);
-  Ok(true)
 }
 
 fn main_loop(connection: Connection) -> Result<()> {
@@ -55,14 +44,33 @@ fn main_loop(connection: Connection) -> Result<()> {
         if connection.handle_shutdown(&req)? {
           return Ok(());
         }
+
+        // Completion request
         match cast::<Completion>(req) {
-          Ok((id, _params)) => {
+          Ok((id, params)) => {
+            let res = CompletionResponse::Array(vec![
+              CompletionItem {
+                label: "Hello".to_string(),
+                kind: Some(CompletionItemKind::TEXT),
+                detail: Some("Hello, World!".to_string()),
+                ..Default::default()
+              },
+              CompletionItem {
+                label: "Bye".to_string(),
+                kind: Some(CompletionItemKind::TEXT),
+                detail: Some("Goodbye".to_string()),
+                ..Default::default()
+              },
+            ]);
+
+            eprintln!("sending completion response: {res:#?}");
+
             connection.sender.send(Message::Response(
-                Response{
-                    id,
-                    result: Some(Value::String("Hello, World!".to_string())),
-                    error: None,
-                }
+              Response {
+                id,
+                result: Some(serde_json::to_value(&res).unwrap_or_default()),
+                error: None,
+              }
             ))?;
 
             continue;

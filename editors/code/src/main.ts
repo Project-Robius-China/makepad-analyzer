@@ -33,6 +33,46 @@ export function activate(context: vscode.ExtensionContext) {
     },
   }
 
+  const completionProvider = vscode.languages.registerCompletionItemProvider(
+    { scheme: "file", language: "rust" },
+    {
+      provideCompletionItems: async (document, position, token, context) => {
+        const result = await client.sendRequest("textDocument/completion", {
+          textDocument: { uri: document.uri.toString() },
+          position: client.code2ProtocolConverter.asPosition(position),
+          context: {
+              triggerKind: context.triggerKind,
+              triggerCharacter: context.triggerCharacter,
+          }
+        });
+
+        if (Array.isArray(result)) {
+          console.log("Got completion items", result);
+          return result.map(item => {
+            const vscodeCompletionItem = new vscode.CompletionItem(
+              item.label,
+              item.kind
+            );
+
+            if (item.detail) {
+              vscodeCompletionItem.detail = item.detail;
+            }
+            if (item.documentation) {
+              vscodeCompletionItem.documentation = item.documentation;
+            }
+
+            console.log("Returning completion item", vscodeCompletionItem);
+
+            return vscodeCompletionItem;
+          });
+        };
+        return [];
+      },
+    }
+  );
+
+  context.subscriptions.push(completionProvider);
+
   client = new LanguageClient("makepad-analyzer", "Makepad Analyzer", serverOptions, clientOptions);
 
   client.start();

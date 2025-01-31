@@ -1,1 +1,1 @@
-# LSP frontend plugin for VScode
+# Makepad LSP frontend plugin for VScode

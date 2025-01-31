@@ -4,7 +4,6 @@ live_design!{
   use link::theme::*;
   use link::shaders::*;
   use link::widgets::*;
-  
   App = {{App}} {
     ui: <Root>{
       main_window = <Window>{
