@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Extension (Debug Build)",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--disable-extensions",
+        "--extensionDevelopmentPath=${workspaceFolder}/editors/code"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/editors/code/out/**/*.js"
+      ],
+      "preLaunchTask": "Build Server and Extension",
+      "env": {
+        "SERVER_PATH": "${workspaceRoot}/target/debug/makepad-lsp-server",
+        "RUST_LOG": "trace"
+      },
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+      ]
+    }
+  ]
+}

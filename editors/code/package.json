@@ -1,0 +1,46 @@
+{
+  "name": "makepad-analyzer",
+  "displayName": "makepad-analyzer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "out/main",
+  "scripts": {
+    "vscode:prepublish": "npm run build-base -- --minify",
+    "package": "vsce package -o makepad-analyzer.vsix",
+    "build-base": "esbuild ./src/main.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node --target=node16",
+    "build": "npm run build-base -- --sourcemap",
+    "watch": "npm run build-base -- --sourcemap --watch"
+  },
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "activationEvents": [
+    "onLanguage:rust"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rust",
+        "extensions": [
+            ".rs"
+        ]
+      }
+    ]
+  },
+  "keywords": [
+    "makepad"
+  ],
+  "author": "Tyrese Luo",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
+}

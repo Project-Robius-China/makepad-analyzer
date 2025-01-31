@@ -1,0 +1,11 @@
+[workspace]
+members = [
+  "lib/*",
+  "examples/*",
+]
+resolver = "2"
+
+[workspace.package]
+rust-version = "1.82"
+edition = "2021"
+license = "MIT"
