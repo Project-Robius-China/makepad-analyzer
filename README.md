@@ -1,21 +1,21 @@
-# Makepad DSL Language Server
+# Makepad Analyzer
 
-## Vision
+Makepad Analyzer is a tool that provides code analysis and performance analysis for the Makepad.
 
-we want to create a language server that can be used to provide code completion, hover, and definition capabilities for the Makepad DSL.
+The experience might be better if it's integrated with makepad-studio, but for now we'll focus more on `VS Code` in preparation for `Makepad Studio`.
 
-of course, we not only want to provide these basic language capabilities, but we also want to provide code style, formatting and linting capabilities in the future.
+## Features in Progress
 
-Maybe even a full-blown language server that can be used to compile and run Makepad DSL code, generate a base live view, just like web devtools, where you can tick and see the relevant properties and structures.
+- [x] Language Server: Basic language server that can be used to provide code completion, hover, and definition capabilities for the Makepad DSL.
 
-The experience might be better if it's integrated with `makepad-studio`, but for now we'll focus more on vscode in preparation for `makepad-studio`.
+## Features in Future
+
+We hope that in the future it would be desirable to provide the following features:
+
+- [ ] Language Server
+- [ ] Code Analysis
+- [ ] Profermance Analysis
+- [ ] Tree Shaking
 
 > [!NOTE]
-> ⚠️ makepad-lsp-server is a work-in-progress that doesn't yet support all features.
-
-## Capabilities
-
-- [x] Syntax Highlighting: use `rust-analyzer`, not custom implemented yet
-- [ ] Code Completion
-- [ ] Hover
-- [ ] Definition
+> ⚠️ makepad-analyzer is a work-in-progress that doesn't yet support all features.
