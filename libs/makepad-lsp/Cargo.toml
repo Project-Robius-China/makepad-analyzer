@@ -14,9 +14,8 @@ serde_json.workspace = true
 
 tracing.workspace = true
 
-log = "0.4.17"
 lsp-types = "0.97.0"
-lsp-server = "0.7"
+tower-lsp = { workspace = true, features = ["proposed"] }
 
 tokio = { workspace = true, features = [
     "fs",

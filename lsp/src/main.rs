@@ -1,4 +1,4 @@
 #[tokio::main]
 async fn main(){
-  makepad_lsp::start().await
+  makepad_lsp::start().await;
 }
