@@ -1,0 +1,12 @@
+[package]
+name = "makepad-analyzer-tracing"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+ansiterm.workspace = true
+tracing.workspace = true
+tracing-subscriber = { workspace = true, features = ["ansi", "env-filter", "json"] }
+
+[dev-dependencies]
+tracing-test = "0.2"
