@@ -1,0 +1,10 @@
+[package]
+name = "makepad-lsp-server"
+description = "Makepad LSP server"
+version = "0.0.1"
+edition = "2021"
+
+[dependencies]
+anyhow.workspace = true
+tokio.workspace = true
+makepad-lsp.workspace = true

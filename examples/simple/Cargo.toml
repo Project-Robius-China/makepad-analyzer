@@ -1,8 +1,0 @@
-[package]
-name = "makepad-example-simple"
-version = "0.0.1"
-edition = "2021"
-description = "Makepad simple example"
-
-[dependencies]
-makepad-widgets = { git = "https://github.com/makepad/makepad.git", branch = "rik"}

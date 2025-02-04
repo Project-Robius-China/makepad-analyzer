@@ -19,7 +19,7 @@
       "label": "Build Server",
       "group": "build",
       "type": "shell",
-      "command": "cargo build --manifest-path ${workspaceFolder}/lib/makepad-lsp-server/Cargo.toml",
+      "command": "cargo build --manifest-path ${workspaceFolder}/lsp/Cargo.toml",
     },
     {
       "label": "Build Server and Extension",

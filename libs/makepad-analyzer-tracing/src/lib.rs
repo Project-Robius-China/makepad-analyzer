@@ -4,8 +4,12 @@ mod log_with_styles;
 
 use std::{env, io};
 use tracing::{level_filters::LevelFilter, Level, Metadata};
-use tracing_subscriber::{fmt::MakeWriter, EnvFilter};
 
+pub use tracing_subscriber::{
+  self,
+  filter::EnvFilter,
+  fmt::{format::FmtSpan, MakeWriter},
+};
 const LOG_FILTER: &str = "RUST_LOG";
 
 // This allows us to write ERROR and WARN level logs to stderr and everything else to stdout.

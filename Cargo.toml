@@ -1,11 +1,29 @@
 [workspace]
-members = [
-  "lib/*",
-  "examples/*",
-]
 resolver = "2"
+members = [
+  "libs/*",
+  "lsp"
+]
 
 [workspace.package]
+version = "0.0.1"
 rust-version = "1.82"
 edition = "2021"
 license = "MIT"
+
+[workspace.dependencies]
+
+# Internal dependencies
+
+makepad-lsp = { path = "libs/makepad-lsp", version = "0.0.1"}
+makepad-analyzer-tracing ={ path = "libs/makepad-analyzer-tracing", version = "0.0.1"}
+
+
+# External dependencies
+anyhow = "1.0"
+serde = "1.0"
+serde_json = "1.0"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+tokio = "1.0"
+ansiterm = "0.12"
