@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
   "libs/*",
-  "lsp"
+  "analyzer"
 ]
 
 [workspace.package]

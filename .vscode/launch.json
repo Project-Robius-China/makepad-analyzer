@@ -15,7 +15,7 @@
       ],
       "preLaunchTask": "Build Server and Extension",
       "env": {
-        "SERVER_PATH": "${workspaceRoot}/target/debug/makepad-lsp-server",
+        "SERVER_PATH": "${workspaceRoot}/target/debug/makepad-analyzer",
         "RUST_LOG": "trace"
       },
       "skipFiles": [

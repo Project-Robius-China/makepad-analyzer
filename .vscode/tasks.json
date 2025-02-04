@@ -16,15 +16,15 @@
       }
     },
     {
-      "label": "Build Server",
+      "label": "Build Makepad Analyzer",
       "group": "build",
       "type": "shell",
-      "command": "cargo build --manifest-path ${workspaceFolder}/lsp/Cargo.toml",
+      "command": "cargo build --manifest-path ${workspaceFolder}/analyzer/Cargo.toml",
     },
     {
       "label": "Build Server and Extension",
       "dependsOn": [
-        "Build Server",
+        "Build Makepad Analyzer",
         "Build Extension"
       ]
     }

@@ -461,6 +461,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "makepad-analyzer"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "makepad-lsp",
+ "tokio",
+]
+
+[[package]]
 name = "makepad-analyzer-tracing"
 version = "0.0.1"
 dependencies = [
@@ -484,15 +493,6 @@ dependencies = [
  "tower-lsp",
  "tracing",
  "walkdir",
-]
-
-[[package]]
-name = "makepad-lsp-server"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "makepad-lsp",
- "tokio",
 ]
 
 [[package]]

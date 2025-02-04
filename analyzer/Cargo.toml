@@ -1,5 +1,5 @@
 [package]
-name = "makepad-lsp-server"
+name = "makepad-analyzer"
 description = "Makepad LSP server"
 version = "0.0.1"
 edition = "2021"
