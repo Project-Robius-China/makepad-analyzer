@@ -8,3 +8,4 @@ edition = "2021"
 anyhow.workspace = true
 tokio.workspace = true
 makepad-lsp.workspace = true
+clap = { workspace = true, features = ["derive"] }
