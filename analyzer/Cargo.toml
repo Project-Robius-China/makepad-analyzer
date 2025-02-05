@@ -7,5 +7,5 @@ edition = "2021"
 [dependencies]
 anyhow.workspace = true
 tokio.workspace = true
-makepad-lsp.workspace = true
+makepad-analyzer-server.workspace = true
 clap = { workspace = true, features = ["derive"] }

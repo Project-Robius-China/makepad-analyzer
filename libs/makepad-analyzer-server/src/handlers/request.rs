@@ -46,11 +46,10 @@ pub fn handle_initialize(
 // TODO: Implement hover request handler
 pub fn handle_hover(
   _state: &MakepadAnalyzerState,
-  _params: HoverParams,
+  params: HoverParams,
 ) -> Result<Option<Hover>> {
-  // let position = params.text_document_position_params.position;
-  // let document = params.text_document_position_params.text_document;
-
+  let text_document_uri = params.text_document_position_params.text_document.uri;
+  tracing::info!("Hover request for: {:#?}", text_document_uri);
   Ok(Some(Hover {
     contents: HoverContents::Markup(
       MarkupContent {

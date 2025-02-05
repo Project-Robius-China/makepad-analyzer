@@ -10,5 +10,5 @@ struct MakepadAnalyzer {}
 #[tokio::main]
 async fn main(){
   MakepadAnalyzer::parse();
-  makepad_lsp::start().await;
+  makepad_analyzer_server::start().await;
 }

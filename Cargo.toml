@@ -15,7 +15,7 @@ license = "MIT"
 
 # Internal dependencies
 
-makepad-lsp = { path = "libs/makepad-lsp", version = "0.0.1"}
+makepad-analyzer-server = { path = "libs/makepad-analyzer-server", version = "0.0.1"}
 makepad-analyzer-tracing ={ path = "libs/makepad-analyzer-tracing", version = "0.0.1"}
 makepad-analyzer-live = { path = "libs/makepad-analyzer-live", version = "0.0.1"}
 
