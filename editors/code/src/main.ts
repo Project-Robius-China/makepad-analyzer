@@ -31,6 +31,12 @@ export function activate(context: vscode.ExtensionContext) {
     synchronize: {
       fileEvents: vscode.workspace.createFileSystemWatcher("**/.clientrc"),
     },
+    initializationOptions: {
+      client: "vscode",
+      logging: {
+        level: "debug",
+      }
+    }
   }
 
   const completionProvider = vscode.languages.registerCompletionItemProvider(

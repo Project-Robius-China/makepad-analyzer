@@ -3,6 +3,7 @@ use tower_lsp::{LspService, Server};
 
 pub mod server;
 pub mod config;
+pub mod capablities;
 pub mod core;
 pub mod error;
 pub mod handlers {
