@@ -71,6 +71,18 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  vscode.workspace.onDidOpenTextDocument(document => {
+    console.log("Opened document", document.uri.toString());
+    client.sendNotification("textDocument/didOpen", {
+      textDocument: {
+        uri: document.uri,
+        languageId: document.languageId,
+        version: document.version,
+        text: document.getText()
+      }
+    })
+  })
+
   context.subscriptions.push(completionProvider);
 
   client = new LanguageClient("makepad-analyzer", "Makepad Analyzer", serverOptions, clientOptions);

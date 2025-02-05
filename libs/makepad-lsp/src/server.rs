@@ -1,5 +1,5 @@
 use crate::config::Config;
-use crate::handlers::request;
+use crate::handlers::{request, notification};
 use std::sync::Arc;
 use parking_lot::RwLock;
 use tower_lsp::jsonrpc::{self, Result};
@@ -7,14 +7,14 @@ use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer};
 
 #[derive(Debug)]
-pub struct MakepadAnalyzer {
+pub struct MakepadAnalyzerState {
   pub client: Option<Client>,
   pub config: Arc<RwLock<Config>>
 }
 
-impl Default for MakepadAnalyzer {
+impl Default for MakepadAnalyzerState {
   fn default() -> Self {
-      let state = MakepadAnalyzer {
+      let state = MakepadAnalyzerState {
           client: None,
           config: Arc::new(RwLock::new(Config::default()))
       };
@@ -22,9 +22,9 @@ impl Default for MakepadAnalyzer {
   }
 }
 
-impl MakepadAnalyzer {
-  pub fn new(client: Client) -> MakepadAnalyzer {
-    MakepadAnalyzer {
+impl MakepadAnalyzerState {
+  pub fn new(client: Client) -> MakepadAnalyzerState {
+    MakepadAnalyzerState {
       client: Some(client),
       ..Default::default()
     }
@@ -38,9 +38,9 @@ impl MakepadAnalyzer {
 }
 
 #[tower_lsp::async_trait]
-impl LanguageServer for MakepadAnalyzer {
+impl LanguageServer for MakepadAnalyzerState {
   async fn initialize(&self, params: InitializeParams) -> Result<InitializeResult> {
-    request::handle_initialize(&self, &params)
+    request::handle_initialize(self, params)
   }
 
   async fn initialized(&self, _: InitializedParams) {
@@ -51,19 +51,35 @@ impl LanguageServer for MakepadAnalyzer {
     self.shutdown_analyzer()
   }
 
-  async fn completion(&self, _: CompletionParams) -> Result<Option<CompletionResponse>> {
-    Ok(Some(CompletionResponse::Array(vec![
-        CompletionItem::new_simple("Hello".to_string(), "Some detail".to_string()),
-        CompletionItem::new_simple("Bye".to_string(), "More detail".to_string())
-    ])))
-}
+  async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
+    request::handle_completion(self, params)
+  }
 
-  async fn hover(&self, _: HoverParams) -> Result<Option<Hover>> {
-      Ok(Some(Hover {
-          contents: HoverContents::Scalar(
-              MarkedString::String("You're hovering!".to_string())
-          ),
-          range: None
-      }))
+  async fn hover(&self, params: HoverParams) -> Result<Option<Hover>> {
+    request::handle_hover(self, params)
+  }
+
+  async fn did_open(&self, params: DidOpenTextDocumentParams) {
+    if let Err(err) = notification::handle_did_open_text_document(self, params).await {
+      tracing::error!("Error handling didOpen notification: {:?}", err);
+    }
+  }
+
+  async fn did_change(&self, params: DidChangeTextDocumentParams) {
+    if let Err(err) = notification::handle_did_change_text_document(self, params).await {
+      tracing::error!("Error handling didChange notification: {:?}", err);
+    }
+  }
+
+  async fn did_save(&self, params: DidSaveTextDocumentParams) {
+    if let Err(err) = notification::handle_did_save_text_document(self, params).await {
+      tracing::error!("Error handling didSave notification: {:?}", err);
+    }
+  }
+
+  async fn did_close(&self, params: DidCloseTextDocumentParams) {
+    if let Err(err) = notification::handle_did_close_text_document(self, params).await {
+      tracing::error!("Error handling didClose notification: {:?}", err);
+    }
   }
 }
