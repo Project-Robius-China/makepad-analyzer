@@ -1,23 +1,19 @@
 [package]
 name = "makepad-analyzer-server"
-description = "LSP server for Makepad"
+description = "Analyzer Server for Makepad"
 version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-
 makepad-analyzer-tracing.workspace = true
 
 anyhow.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
-
 tracing.workspace = true
-
 parking_lot.workspace = true
-
 tower-lsp = { workspace = true, features = ["proposed"] }
-
+dashmap.workspace = true
 tokio = { workspace = true, features = [
     "fs",
     "io-std",
@@ -28,6 +24,3 @@ tokio = { workspace = true, features = [
     "sync",
     "time",
 ] }
-
-walkdir = "2.5.0"
-cargo_metadata = "0.19.1"

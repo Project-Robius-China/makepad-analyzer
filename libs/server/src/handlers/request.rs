@@ -1,5 +1,5 @@
 use makepad_analyzer_tracing::{tracing_subscriber::{self}, FmtSpan, StdioTracingWriter};
-use tower_lsp::{jsonrpc::Result, lsp_types::{CompletionItem, CompletionOptions, CompletionParams, CompletionResponse, Hover, HoverContents, HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, MarkupContent, MarkupKind, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind}};
+use tower_lsp::{jsonrpc::Result, lsp_types::{CompletionOptions, CompletionParams, CompletionResponse, Hover, HoverContents, HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, MarkupContent, MarkupKind, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind}};
 use tracing::level_filters::LevelFilter;
 
 use crate::server::MakepadAnalyzerState;
@@ -69,24 +69,31 @@ pub fn handle_hover(
 }
 
 // TODO: Implement completion request handler
-pub fn handle_completion(
-  _state: &MakepadAnalyzerState,
+pub async fn handle_completion(
+  state: &MakepadAnalyzerState,
   params: CompletionParams,
 ) -> Result<Option<CompletionResponse>> {
-  let trigger_character  = params
-    .context
-    .as_ref()
-    .and_then(|ctx| ctx.trigger_character.as_deref())
-    .unwrap_or("");
-
+  let trigger_char = params
+      .context
+      .as_ref()
+      .and_then(|ctx| ctx.trigger_character.as_deref())
+      .unwrap_or("");
   let position = params.text_document_position.position;
 
-  tracing::info!("Completion request triggered by: {:#?}, position: {:#?}", trigger_character, position);
-
-  Ok(Some(CompletionResponse::Array(vec![
-    CompletionItem::new_simple("use".to_string(), "Some detail".to_string()),
-    CompletionItem::new_simple("pub".to_string(), "More detail".to_string()),
-    CompletionItem::new_simple("crate::".to_string(), "More detail".to_string()),
-    CompletionItem::new_simple("crate://".to_string(), "More detail".to_string())
-  ])))
+  match state
+        .uri_and_session_from_workspace(&params.text_document_position.text_document.uri)
+        .await
+  {
+    Ok((uri, session)) => {
+      Ok(
+        session
+        .completion_items(&uri, position, trigger_char)
+        .map(CompletionResponse::Array)
+      )
+    },
+    Err(err) => {
+      tracing::error!("{}", err.to_string());
+      Ok(None)
+    }
+  }
 }

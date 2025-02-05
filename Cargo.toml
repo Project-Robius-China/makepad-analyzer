@@ -3,7 +3,7 @@ resolver = "2"
 members = [
   "analyzer",
   "libs/*",
-  "plugins/*",
+  # "plugins/*",
 ]
 
 [workspace.package]
@@ -29,3 +29,4 @@ ansiterm = "0.12"
 tower-lsp = "0.20"
 parking_lot = "0.12"
 clap = "4.5"
+dashmap = "6.1"

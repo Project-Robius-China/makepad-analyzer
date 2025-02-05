@@ -1,1 +1,1 @@
-# Makepad LSP Backend
+# Makepad Analyzer Backend
