@@ -1,8 +1,9 @@
 [workspace]
 resolver = "2"
 members = [
+  "analyzer",
   "libs/*",
-  "analyzer"
+  "plugins/*",
 ]
 
 [workspace.package]
@@ -14,10 +15,8 @@ license = "MIT"
 [workspace.dependencies]
 
 # Internal dependencies
-
-makepad-analyzer-server = { path = "libs/makepad-analyzer-server", version = "0.0.1"}
-makepad-analyzer-tracing ={ path = "libs/makepad-analyzer-tracing", version = "0.0.1"}
-makepad-analyzer-live = { path = "libs/makepad-analyzer-live", version = "0.0.1"}
+makepad-analyzer-server = { path = "libs/server", version = "0.0.1"}
+makepad-analyzer-tracing ={ path = "libs/tracing", version = "0.0.1"}
 
 # External dependencies
 anyhow = "1.0"

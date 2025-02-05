@@ -1,7 +1,0 @@
-[package]
-name = "makepad-analyzer-live"
-version.workspace = true
-edition.workspace = true
-
-[dependencies]
-makepad-analyzer-tracing.workspace = true
