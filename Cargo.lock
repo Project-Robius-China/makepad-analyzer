@@ -567,11 +567,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "makepad-analyzer-plugin-live"
+version = "0.0.1"
+dependencies = [
+ "lsp-types",
+ "tracing",
+]
+
+[[package]]
 name = "makepad-analyzer-server"
 version = "0.0.1"
 dependencies = [
  "anyhow",
  "dashmap 6.1.0",
+ "makepad-analyzer-plugin-live",
  "makepad-analyzer-tracing",
  "parking_lot",
  "serde",

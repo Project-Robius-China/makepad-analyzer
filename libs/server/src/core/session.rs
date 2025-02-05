@@ -1,5 +1,5 @@
 use std::path::PathBuf;
-use tower_lsp::lsp_types::{CompletionItem, CompletionItemKind, Documentation, MarkupContent, Position, Url};
+use tower_lsp::lsp_types::{CompletionItem, Position, Url};
 
 use crate::error::MakepadAnalyzerServrError;
 
@@ -41,33 +41,21 @@ impl Session {
       trigger_char
     );
 
-    let completion_items = vec![
-      CompletionItem {
-        label: "Some completion item".to_string(),
-        kind: Some(CompletionItemKind::VARIABLE),
-        detail: Some("Some detail".to_string()),
-        documentation: Some(Documentation::MarkupContent(
-          MarkupContent {
-            kind: tower_lsp::lsp_types::MarkupKind::Markdown,
-            value: "Some documentation".to_string(),
-          },
-        )),
-        ..Default::default()
-      },
-      CompletionItem {
-        label: "Another completion item".to_string(),
-        kind: Some(CompletionItemKind::VARIABLE),
-        detail: Some("Another detail".to_string()),
-        documentation: Some(Documentation::MarkupContent(
-          MarkupContent {
-            kind: tower_lsp::lsp_types::MarkupKind::Markdown,
-            value: "Another documentation".to_string(),
-          },
-        )),
-        ..Default::default()
-      },
-    ];
+    let _p = tracing::trace_span!("completion_items").entered();
 
-    Some(completion_items)
+    let _shifted_position = Position {
+      line: position.line,
+      character: position.character - trigger_char.len() as u32 - 1,
+    };
+
+    // TODO: request completions from plugins
+    // for plugin in self.applied_plugins.iter() {
+    //   plugin.completion_items(uri, position, trigger_char);
+    // }
+
+    let completion_items =
+      makepad_analyzer_plugin_live::completion_items(uri, position, trigger_char);
+
+    completion_items
   }
 }

@@ -6,6 +6,7 @@ edition = "2021"
 
 [dependencies]
 makepad-analyzer-tracing.workspace = true
+makepad-analyzer-plugin-live.workspace = true
 
 anyhow.workspace = true
 serde = { workspace = true, features = ["derive"] }

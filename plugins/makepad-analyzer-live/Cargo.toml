@@ -1,0 +1,8 @@
+[package]
+name = "makepad-analyzer-plugin-live"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+lsp-types.workspace = true
+tracing.workspace = true
