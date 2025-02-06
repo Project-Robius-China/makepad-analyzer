@@ -6,6 +6,7 @@ edition = "2021"
 
 [dependencies]
 makepad-analyzer-tracing.workspace = true
+makepad-analyzer-plugin.workspace = true
 makepad-analyzer-plugin-live.workspace = true
 
 anyhow.workspace = true
@@ -25,3 +26,4 @@ tokio = { workspace = true, features = [
     "sync",
     "time",
 ] }
+once_cell.workspace = true

@@ -34,13 +34,6 @@ impl Session {
     position: Position,
     trigger_char: &str,
   ) -> Option<Vec<CompletionItem>> {
-    tracing::info!(
-      "Completion request for: {:#?}, position: {:#?}, trigger_char: {:#?}",
-      uri,
-      position,
-      trigger_char
-    );
-
     let _p = tracing::trace_span!("completion_items").entered();
 
     let _shifted_position = Position {
@@ -48,14 +41,16 @@ impl Session {
       character: position.character - trigger_char.len() as u32 - 1,
     };
 
-    // TODO: request completions from plugins
-    // for plugin in self.applied_plugins.iter() {
-    //   plugin.completion_items(uri, position, trigger_char);
-    // }
+    // Apply plugins and get completion items, but now we only have one plugin.
+    // TODO: if we have multiple plugins, we should apply them all, and then merge the completion items.
 
+    // Maybe like this: PluginManager::get_plugins().capabilities().handle_completion(uri, position, trigger_char)
+    // Then we just return the merged completion items.
+    // The merge operation should be done by the PluginManager.
+    // The merged completion items should be sorted by the order of the plugins.
     let completion_items =
-      makepad_analyzer_plugin_live::completion_items(uri, position, trigger_char);
+      makepad_analyzer_plugin_live::handle_completion(uri, position, trigger_char);
 
-    completion_items
+    Some(completion_items)
   }
 }

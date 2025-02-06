@@ -5,7 +5,8 @@
 
 use tower_lsp::lsp_types::{DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams};
 use anyhow::Result;
-use crate::server::MakepadAnalyzerState;
+
+use crate::analyzer_state::MakepadAnalyzerState;
 
 pub async fn handle_did_open_text_document(
   _state: &MakepadAnalyzerState,

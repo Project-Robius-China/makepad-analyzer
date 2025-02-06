@@ -567,10 +567,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "makepad-analyzer-plugin"
+version = "0.0.1"
+dependencies = [
+ "lsp-types",
+ "parking_lot",
+ "tracing",
+]
+
+[[package]]
 name = "makepad-analyzer-plugin-live"
 version = "0.0.1"
 dependencies = [
  "lsp-types",
+ "makepad-analyzer-plugin",
  "tracing",
 ]
 
@@ -580,8 +590,10 @@ version = "0.0.1"
 dependencies = [
  "anyhow",
  "dashmap 6.1.0",
+ "makepad-analyzer-plugin",
  "makepad-analyzer-plugin-live",
  "makepad-analyzer-tracing",
+ "once_cell",
  "parking_lot",
  "serde",
  "serde_json",

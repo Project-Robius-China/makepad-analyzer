@@ -1,10 +1,14 @@
 use lsp_types::{CompletionItem, CompletionItemKind, Documentation, MarkupContent, MarkupKind, Position, Url};
 
-pub fn completion_items(
-  _uri: &Url,
-  _position: Position,
-  _trigger_char: &str,
-) -> Option<Vec<CompletionItem>> {
+pub fn handle_completion(
+  uri: &Url,
+  position: Position,
+  trigger_char: &str,
+) -> Vec<CompletionItem> {
+
+  tracing::info!("completion_items: uri: {:?}, position: {:?}, trigger_char: {:?}", uri, position, trigger_char);
+
+  // TODO: Customize the handling of completions according to the current plugin.
 
   let completion_items = vec![
     CompletionItem {
@@ -21,5 +25,5 @@ pub fn completion_items(
     },
   ];
 
-  Some(completion_items)
+  completion_items
 }

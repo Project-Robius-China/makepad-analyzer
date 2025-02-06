@@ -2,7 +2,7 @@ use makepad_analyzer_tracing::{tracing_subscriber::{self}, FmtSpan, StdioTracing
 use tower_lsp::{jsonrpc::Result, lsp_types::{CompletionParams, CompletionResponse, Hover, HoverContents, HoverParams, InitializeParams, InitializeResult, MarkupContent, MarkupKind}};
 use tracing::level_filters::LevelFilter;
 
-use crate::{capablities, server::MakepadAnalyzerState};
+use crate::{capablities, analyzer_state::MakepadAnalyzerState};
 
 /// Request handler for the `initialize` request.
 pub fn handle_initialize(
@@ -52,7 +52,7 @@ pub fn handle_hover(
   params: HoverParams,
 ) -> Result<Option<Hover>> {
   let text_document_uri = params.text_document_position_params.text_document.uri;
-  tracing::info!("Hover request for: {:#?}", text_document_uri);
+  tracing::info!("Hover request for: {:?}", text_document_uri);
   Ok(Some(Hover {
     contents: HoverContents::Markup(
       MarkupContent {
