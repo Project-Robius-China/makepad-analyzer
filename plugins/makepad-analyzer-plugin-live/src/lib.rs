@@ -2,8 +2,7 @@ mod capabilities;
 
 pub use capabilities::*;
 
-use lsp_types::{CompletionItem, Position, Url};
-use makepad_analyzer_plugin_types::{MakepadAnalyzerPlugin, PluginCapability, PluginInfo};
+use makepad_analyzer_plugin_types::{CompletionItem, MakepadAnalyzerPlugin, PluginCapability, PluginInfo, Position, Url};
 
 struct LivePluginCapability;
 

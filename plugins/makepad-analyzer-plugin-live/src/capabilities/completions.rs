@@ -1,4 +1,4 @@
-use lsp_types::{CompletionItem, CompletionItemKind, Documentation, InsertTextFormat, MarkupContent, MarkupKind, Position, Url};
+use makepad_analyzer_plugin_types::{CompletionItem, CompletionItemKind, Documentation, InsertTextFormat, MarkupContent, MarkupKind, Position, Url};
 
 enum LiveCompletionContext {
   Link,     // link::

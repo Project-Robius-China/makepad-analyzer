@@ -5,5 +5,4 @@ edition.workspace = true
 
 [dependencies]
 makepad-analyzer-plugin-types.workspace = true
-lsp-types.workspace = true
 tracing.workspace = true

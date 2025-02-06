@@ -1,4 +1,6 @@
-use lsp_types::{CompletionItem, Position, Url};
+extern crate lsp_types;
+
+pub use lsp_types::*;
 
 #[derive(Debug, Clone)]
 pub struct PluginInfo {

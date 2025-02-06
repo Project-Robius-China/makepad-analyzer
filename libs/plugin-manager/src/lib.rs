@@ -1,9 +1,8 @@
 use std::sync::Arc;
-use lsp_types::{CompletionItem, Position, Url};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use makepad_analyzer_plugin_live::MakepadAnalyzerLivePlugin;
-use makepad_analyzer_plugin_types::{MakepadAnalyzerPlugin, PluginInfo};
+use makepad_analyzer_plugin_types::{MakepadAnalyzerPlugin, PluginInfo, CompletionItem, Position, Url};
 
 pub static PLUGIN_MANAGER: Lazy<PluginManager> = Lazy::new(||
   PluginManagerBuilder::new()
