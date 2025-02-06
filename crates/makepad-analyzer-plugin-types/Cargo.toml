@@ -1,0 +1,9 @@
+[package]
+description = "makepad analyzer plugin types"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-plugin-types"
+version     = "0.0.1"
+
+[dependencies]
+lsp-types.workspace = true

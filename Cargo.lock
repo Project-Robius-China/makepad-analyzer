@@ -598,8 +598,6 @@ name = "makepad-analyzer-plugin-types"
 version = "0.0.1"
 dependencies = [
  "lsp-types",
- "parking_lot",
- "tracing",
 ]
 
 [[package]]

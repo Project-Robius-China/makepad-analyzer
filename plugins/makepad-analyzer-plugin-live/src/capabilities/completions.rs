@@ -20,6 +20,8 @@ pub fn handle_completion(
 
   tracing::info!("completion_items: shifted_position: {:?}", shifted_position);
 
+  // I'm not sure how to get the document from the session.
+
   // let document = match session.get_document(uri) {
   //   Some(document) => document,
   //   None => return None,

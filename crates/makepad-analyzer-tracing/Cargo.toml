@@ -1,0 +1,14 @@
+[package]
+description = "makepad analyzer tracing"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-tracing"
+version     = "0.0.1"
+
+[dependencies]
+ansiterm.workspace  = true
+tracing.workspace   = true
+tracing-subscriber  = { workspace = true, features = ["ansi", "env-filter", "json"] }
+
+[dev-dependencies]
+tracing-test = "0.2"
