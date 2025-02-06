@@ -2,7 +2,7 @@ mod live;
 
 pub use live::*;
 use lsp_types::{CompletionItem, Position, Url};
-use makepad_analyzer_plugin::{MakepadAnalyzerPlugin, PluginCapability, PluginInfo};
+use makepad_analyzer_plugin_manager::{MakepadAnalyzerPlugin, PluginCapability, PluginInfo};
 
 struct LivePluginCapability;
 
@@ -13,6 +13,8 @@ impl PluginCapability for LivePluginCapability {
     position: Position,
     trigger_char: &str,
   ) -> Vec<CompletionItem> {
+    // Here we delegate the handling of completions to the live or shader module.
+    // Then merge the results from the live and shader modules, but now we first consider the live module.
     live::handle_completion(uri, position, trigger_char)
   }
 }

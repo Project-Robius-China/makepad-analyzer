@@ -1,31 +1,17 @@
-use std::path::PathBuf;
+use makepad_analyzer_plugin_manager::PluginManager;
 use tower_lsp::lsp_types::{CompletionItem, Position, Url};
 
-use crate::error::MakepadAnalyzerServrError;
-
-#[derive(Debug)]
 pub struct Session {
-  /// A list of plugins to be used in the current session.
-  pub applied_plugins: Vec<String>,
-}
-
-impl Default for Session {
-  fn default() -> Self {
-    Self::new()
-  }
+  plugin_manager: &'static PluginManager,
 }
 
 impl Session {
-  pub fn new() -> Self {
+  pub fn new(
+    plugin_manager: &'static PluginManager,
+  ) -> Self {
     Self {
-      applied_plugins: Vec::new(),
+      plugin_manager,
     }
-  }
-
-  pub fn init(
-    &mut self,
-  ) -> Result<PathBuf, MakepadAnalyzerServrError> {
-    todo!()
   }
 
   pub fn completion_items(
@@ -48,8 +34,14 @@ impl Session {
     // Then we just return the merged completion items.
     // The merge operation should be done by the PluginManager.
     // The merged completion items should be sorted by the order of the plugins.
-    let completion_items =
-      makepad_analyzer_plugin_live::handle_completion(uri, position, trigger_char);
+    let mut completion_items = Vec::new();
+
+    for plugin in self.plugin_manager.get_plugins() {
+      // TODO: we need to judge whether the plugin is applied to the current session.
+      // Otherwise, we also should to check the plugin is enabled or not.
+      let plugin_completion_items = plugin.capabilities().handle_completion(uri, position, trigger_char);
+      completion_items.extend(plugin_completion_items);
+    }
 
     Some(completion_items)
   }

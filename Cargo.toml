@@ -17,7 +17,7 @@ license = "MIT"
 # Internal dependencies
 makepad-analyzer-server = { path = "libs/server", version = "0.0.1"}
 makepad-analyzer-tracing ={ path = "libs/tracing", version = "0.0.1"}
-makepad-analyzer-plugin = { path = "libs/plugin", version = "0.0.1"}
+makepad-analyzer-plugin-manager = { path = "libs/plugin-manager", version = "0.0.1"}
 
 # Internal plugin dependencies
 makepad-analyzer-plugin-live = { path = "plugins/makepad-analyzer-live", version = "0.0.1" }

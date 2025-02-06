@@ -2,7 +2,7 @@ use std::{path::PathBuf, sync::Arc};
 
 use anyhow::Result;
 use dashmap::DashMap;
-use makepad_analyzer_plugin::{PluginManager, PluginManagerBuilder};
+use makepad_analyzer_plugin_manager::{PluginManager, PluginManagerBuilder};
 use makepad_analyzer_plugin_live::MakepadAnalyzerLivePlugin;
 use once_cell::sync::Lazy;
 use parking_lot::RwLock;
@@ -55,7 +55,7 @@ impl MakepadAnalyzerState {
   async fn url_to_session(&self, uri: &Url) -> Result<Arc<Session>> {
     // TODO: Try to get the manifest directory from the cache
     // TODO: If the session is already in the cache, return it
-    let session = Arc::new(Session::new());
+    let session = Arc::new(Session::new(self.plugin_manager));
     self.sessions.insert(uri.to_file_path().unwrap(), session.clone());
     Ok(session)
   }

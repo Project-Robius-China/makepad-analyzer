@@ -1,5 +1,5 @@
 [package]
-name = "makepad-analyzer-plugin"
+name = "makepad-analyzer-plugin-manager"
 version.workspace = true
 edition.workspace = true
 

@@ -46,10 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
         const result = await client.sendRequest("textDocument/completion", {
           textDocument: { uri: document.uri.toString() },
           position: client.code2ProtocolConverter.asPosition(position),
-          context: {
-              triggerKind: context.triggerKind,
-              triggerCharacter: context.triggerCharacter,
-          }
+          context
         });
 
         if (Array.isArray(result)) {
@@ -74,7 +71,9 @@ export function activate(context: vscode.ExtensionContext) {
         };
         return [];
       },
-    }
+    },
+    ':',
+    '/',
   );
 
   vscode.workspace.onDidOpenTextDocument(document => {
