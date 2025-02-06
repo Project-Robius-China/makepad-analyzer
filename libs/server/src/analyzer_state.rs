@@ -2,19 +2,11 @@ use std::{path::PathBuf, sync::Arc};
 
 use anyhow::Result;
 use dashmap::DashMap;
-use makepad_analyzer_plugin_manager::{PluginManager, PluginManagerBuilder};
-use makepad_analyzer_plugin_live::MakepadAnalyzerLivePlugin;
-use once_cell::sync::Lazy;
+use makepad_analyzer_plugin_manager::{PluginManager, PLUGIN_MANAGER};
 use parking_lot::RwLock;
 use tower_lsp::{jsonrpc, lsp_types::Url, Client};
 
 use crate::{config::Config, core::session::Session};
-
-static PLUGIN_MANAGER: Lazy<PluginManager> = Lazy::new(||
-  PluginManagerBuilder::new()
-    .apply_plugin(Arc::new(MakepadAnalyzerLivePlugin::new()))
-    .finish()
-);
 
 pub struct MakepadAnalyzerState {
   pub client: Option<Client>,

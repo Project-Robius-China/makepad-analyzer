@@ -46,7 +46,7 @@ pub fn handle_completion(
   completion_items
 }
 
-pub fn match_keyword(line: &str, character: usize, trigger_char: &str) -> LiveCompletionContext {
+fn match_keyword(line: &str, character: usize, trigger_char: &str) -> LiveCompletionContext {
   todo!()
 }
 

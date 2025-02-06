@@ -1,29 +1,15 @@
 use std::sync::Arc;
-
-use parking_lot::Mutex;
 use lsp_types::{CompletionItem, Position, Url};
+use once_cell::sync::Lazy;
+use parking_lot::Mutex;
+use makepad_analyzer_plugin_live::MakepadAnalyzerLivePlugin;
+use makepad_analyzer_plugin_types::{MakepadAnalyzerPlugin, PluginInfo};
 
-#[derive(Debug, Clone)]
-pub struct PluginInfo {
-  pub name: String,
-  pub description: String,
-  pub version: String,
-}
-
-pub trait PluginCapability: Send + Sync {
-  fn handle_completion(
-    &self,
-    uri: &Url,
-    position: Position,
-    trigger_char: &str,
-  ) -> Vec<CompletionItem>;
-}
-
-pub trait MakepadAnalyzerPlugin: Send + Sync {
-  fn plugin_info(&self) -> PluginInfo;
-  fn capabilities(&self) -> &dyn PluginCapability;
-}
-
+pub static PLUGIN_MANAGER: Lazy<PluginManager> = Lazy::new(||
+  PluginManagerBuilder::new()
+    .apply_plugin(Arc::new(MakepadAnalyzerLivePlugin::new()))
+    .finish()
+);
 
 pub struct PluginManagerBuilder {
   plugin_manager: PluginManager,
@@ -53,7 +39,6 @@ pub struct PluginManager {
 }
 
 impl PluginManager {
-
   pub fn get_all_registered_plugin_info(&self) -> Vec<PluginInfo> {
     let plugins = self.get_plugins();
     plugins.iter().map(|plugin| plugin.plugin_info()).collect()

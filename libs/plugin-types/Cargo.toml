@@ -1,9 +1,9 @@
 [package]
-name = "makepad-analyzer-plugin-live"
+name = "makepad-analyzer-plugin-types"
 version.workspace = true
 edition.workspace = true
 
 [dependencies]
-makepad-analyzer-plugin-manager.workspace = true
 lsp-types.workspace = true
 tracing.workspace = true
+parking_lot.workspace = true

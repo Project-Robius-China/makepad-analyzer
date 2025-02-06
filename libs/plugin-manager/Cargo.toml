@@ -5,5 +5,10 @@ edition.workspace = true
 
 [dependencies]
 lsp-types.workspace = true
+makepad-analyzer-plugin-types.workspace = true
 tracing.workspace = true
 parking_lot.workspace = true
+once_cell.workspace = true
+
+# Plugins
+makepad-analyzer-plugin-live.workspace = true

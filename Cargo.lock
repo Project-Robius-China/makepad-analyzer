@@ -571,12 +571,33 @@ name = "makepad-analyzer-plugin-live"
 version = "0.0.1"
 dependencies = [
  "lsp-types",
- "makepad-analyzer-plugin-manager",
+ "makepad-analyzer-plugin-types",
  "tracing",
 ]
 
 [[package]]
 name = "makepad-analyzer-plugin-manager"
+version = "0.0.1"
+dependencies = [
+ "lsp-types",
+ "makepad-analyzer-plugin-live",
+ "makepad-analyzer-plugin-types",
+ "once_cell",
+ "parking_lot",
+ "tracing",
+]
+
+[[package]]
+name = "makepad-analyzer-plugin-shader"
+version = "0.0.1"
+dependencies = [
+ "lsp-types",
+ "makepad-analyzer-plugin-types",
+ "tracing",
+]
+
+[[package]]
+name = "makepad-analyzer-plugin-types"
 version = "0.0.1"
 dependencies = [
  "lsp-types",
@@ -590,7 +611,6 @@ version = "0.0.1"
 dependencies = [
  "anyhow",
  "dashmap 6.1.0",
- "makepad-analyzer-plugin-live",
  "makepad-analyzer-plugin-manager",
  "makepad-analyzer-tracing",
  "once_cell",
