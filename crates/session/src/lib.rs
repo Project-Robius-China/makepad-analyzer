@@ -3,9 +3,15 @@ mod lru_session_cache;
 
 use std::sync::{Arc, Weak};
 
+use once_cell::sync::Lazy;
 pub use session::*;
 pub use lru_session_cache::*;
 use tokio::time::{interval, Duration};
+
+
+static SESSION_MANAGER: Lazy<Arc<SessionManager>> = Lazy::new(|| {
+  SessionManagerBuilder::new().build()
+});
 
 static DEFAULT_SESSION_CACHE_CAPACITY: usize = 10;      // 10 sessions
 static DEFAULT_AUTO_CLEANUP_INTERVAL: u64 = 60 * 60;  // 1 hour
@@ -46,40 +52,38 @@ pub struct SessionManager {
 }
 
 impl SessionManager {
-  fn new(
+  pub fn new(
     sessions_cache: LRUSessionCache,
-    auto_cleanup_interval: Duration
+    auto_cleanup_interval: Duration,
   ) -> Arc<Self> {
-    let session_manager = Arc::new(Self {
-      sessions_cache,
-      auto_cleanup_interval,
+    let manager = Arc::new(SessionManager {
+        sessions_cache,
+        auto_cleanup_interval,
     });
 
-    let weak_session_manager = Arc::downgrade(&session_manager);
+    let weak_manager = Arc::downgrade(&manager);
     tokio::spawn(async move {
-      Self::auto_cleanup_sessions_task(
-        weak_session_manager,
-        auto_cleanup_interval
-      ).await;
+        Self::auto_cleanup_sessions_task(weak_manager, auto_cleanup_interval).await;
     });
-
-    session_manager
+    manager
   }
+
 
   async fn auto_cleanup_sessions_task(
     weak_manager: Weak<Self>,
-    auto_cleanup_interval: Duration
-  ) {
-    let mut interval = interval(auto_cleanup_interval);
+    auto_cleanup_interval: Duration,
+) {
+    let mut ticker = interval(auto_cleanup_interval);
     loop {
-      interval.tick().await;
-      // check if the session manager is still alive
-      if let Some(manager) = weak_manager.upgrade() {
-        tracing::info!("Running auto cleanup session task");
-        manager.sessions_cache.cleanup_sessions();
-      } else {
-        break;
-      }
+        ticker.tick().await;
+        // Check if the SessionManager is still alive
+        if let Some(manager) = weak_manager.upgrade() {
+            tracing::info!("Running auto cleanup session task");
+            manager.sessions_cache.cleanup_sessions();
+        } else {
+            tracing::info!("SessionManager dropped, stopping cleanup task.");
+            break;
+        }
     }
   }
 }
