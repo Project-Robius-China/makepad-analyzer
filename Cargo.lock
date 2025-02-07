@@ -567,6 +567,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "makepad-analyzer-config"
+version = "0.0.1"
+dependencies = [
+ "serde",
+ "tracing",
+]
+
+[[package]]
+name = "makepad-analyzer-context"
+version = "0.0.1"
+dependencies = [
+ "makepad-analyzer-config",
+ "makepad-analyzer-plugin-manager",
+ "makepad-analyzer-session",
+ "tower-lsp",
+]
+
+[[package]]
 name = "makepad-analyzer-plugin-live"
 version = "0.0.1"
 dependencies = [
@@ -612,6 +630,16 @@ dependencies = [
  "parking_lot",
  "serde",
  "serde_json",
+ "tokio",
+ "tower-lsp",
+ "tracing",
+]
+
+[[package]]
+name = "makepad-analyzer-session"
+version = "0.0.1"
+dependencies = [
+ "dashmap 6.1.0",
  "tokio",
  "tower-lsp",
  "tracing",

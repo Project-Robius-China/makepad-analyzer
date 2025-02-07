@@ -1,0 +1,10 @@
+[package]
+description = "makepad analyzer config"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-config"
+version     = "0.0.1"
+
+[dependencies]
+serde = { workspace   = true, features = ["derive"] }
+tracing.workspace     = true

@@ -11,9 +11,12 @@ license       = "MIT"
 [workspace.dependencies]
 # Internal dependencies
 makepad-analyzer-server         = { path = "crates/makepad-analyzer", version = "0.0.1"}
-makepad-analyzer-plugin-manager = { path = "crates/makepad-analyzer-plugin-manager", version = "0.0.1"}
-makepad-analyzer-tracing        = { path = "crates/makepad-analyzer-tracing", version = "0.0.1" }
-makepad-analyzer-plugin-types   = { path = "crates/makepad-analyzer-plugin-types", version = "0.0.1" }
+makepad-analyzer-config         = { path = "crates/config", version = "0.0.1"}
+makepad-analyzer-context        = { path = "crates/context", version = "0.0.1"}
+makepad-analyzer-session        = { path = "crates/session", version = "0.0.1"}
+makepad-analyzer-plugin-manager = { path = "crates/plugin-manager", version = "0.0.1"}
+makepad-analyzer-tracing        = { path = "crates/tracing", version = "0.0.1" }
+makepad-analyzer-plugin-types   = { path = "crates/plugin-types", version = "0.0.1" }
 # Internal plugin dependencies
 makepad-analyzer-plugin-live    = { path = "plugins/makepad-analyzer-plugin-live", version = "0.0.1" }
 # External dependencies

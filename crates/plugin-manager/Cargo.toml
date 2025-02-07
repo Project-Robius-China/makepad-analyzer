@@ -1,9 +1,9 @@
 [package]
 description = "makepad analyzer plugin manager"
-edition = "2021"
-license = "MIT"
-name = "makepad-analyzer-plugin-manager"
-version = "0.0.1"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-plugin-manager"
+version     = "0.0.1"
 
 [dependencies]
 makepad-analyzer-plugin-types.workspace = true

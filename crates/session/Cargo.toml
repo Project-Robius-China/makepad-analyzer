@@ -1,0 +1,12 @@
+[package]
+description = "makepad analyzer session"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-session"
+version     = "0.0.1"
+
+[dependencies]
+tower-lsp = { workspace = true, features = ["proposed"] }
+dashmap.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "time", "sync", "macros"] }
+tracing.workspace = true
