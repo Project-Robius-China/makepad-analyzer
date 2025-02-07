@@ -7,14 +7,6 @@ pub struct LoggingConfig {
   pub level: LevelFilter,
 }
 
-impl Default for LoggingConfig {
-  fn default() -> Self {
-      Self {
-        level: LevelFilter::OFF
-      }
-  }
-}
-
 #[derive(Deserialize, Serialize, Clone)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "LevelFilter")]
@@ -26,4 +18,12 @@ enum LevelFilterDef {
   INFO,
   DEBUG,
   TRACE,
+}
+
+impl Default for LoggingConfig {
+  fn default() -> Self {
+      Self {
+        level: LevelFilter::OFF
+      }
+  }
 }

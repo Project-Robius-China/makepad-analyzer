@@ -1,11 +1,14 @@
 [package]
-name = "makepad-analyzer"
-description = "Makepad LSP server"
-version = "0.0.1"
-edition = "2021"
+description = "makepad analyzer server"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer"
+version     = "0.0.1"
 
 [dependencies]
-anyhow.workspace = true
-tokio.workspace = true
-makepad-analyzer-server.workspace = true
-clap = { workspace = true, features = ["derive"] }
+makepad-analyzer-server   = { workspace = true }
+makepad-analyzer-tracing  = { workspace = true }
+
+anyhow                    = { workspace = true }
+clap                      = { workspace = true, features = ["derive"] }
+tokio                     = { workspace = true }

@@ -1,0 +1,10 @@
+[package]
+description = "makepad analyzer session"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-session"
+version     = "0.0.1"
+
+[dependencies]
+makepad-analyzer-core    = { workspace = true }
+tracing                  = { workspace = true }

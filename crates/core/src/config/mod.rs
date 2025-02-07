@@ -1,10 +1,17 @@
-mod client;
 mod logging;
 
-pub use client::*;
-pub use logging::*;
-
+use logging::LoggingConfig;
 use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum LSPClient {
+  VSCode,
+  MakepadStudio,
+  #[serde(other)]
+  #[default]
+  Other,
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct Config {

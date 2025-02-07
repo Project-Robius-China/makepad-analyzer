@@ -1,0 +1,19 @@
+[package]
+description = "makepad analyzer server"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-server"
+version     = "0.0.1"
+
+[dependencies]
+makepad-analyzer-core    = { workspace = true }
+makepad-analyzer-tracing = { workspace = true }
+makepad-analyzer-session = { workspace = true }
+
+tracing                  = { workspace = true }
+tower-lsp                = { workspace = true, features = ["proposed"] }
+anyhow                   = { workspace = true }
+tokio                    = { workspace = true, features = ["fs", "io-std", "io-util", "macros", "net", "rt-multi-thread", "sync", "time",] }
+serde                    = { workspace   = true, features = ["derive"] }
+serde_json               = { workspace   = true }
+parking_lot              = { workspace = true }

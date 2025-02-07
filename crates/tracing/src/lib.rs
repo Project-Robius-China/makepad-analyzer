@@ -10,6 +10,9 @@ pub use tracing_subscriber::{
   filter::EnvFilter,
   fmt::{format::FmtSpan, MakeWriter},
 };
+
+pub use log_with_styles::*;
+
 const LOG_FILTER: &str = "RUST_LOG";
 
 // This allows us to write ERROR and WARN level logs to stderr and everything else to stdout.

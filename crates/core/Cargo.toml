@@ -1,0 +1,13 @@
+[package]
+description = "makepad analyzer core"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-core"
+version     = "0.0.1"
+
+[dependencies]
+lsp-types   = { workspace = true }
+thiserror   = { workspace = true }
+tracing     = { workspace = true }
+serde       = { workspace   = true, features = ["derive"] }
+serde_json  = { workspace = true }
