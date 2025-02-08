@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{path::PathBuf, sync::Arc};
 
 use makepad_analyzer_core::{config::Config, errors::MakepadAnalyzerError};
 use makepad_analyzer_document::Documents;
@@ -20,6 +20,7 @@ pub struct ServerContext {
 
   pub documents: Documents,
   pub session_manager: &'static SessionManager,
+  // pub(crate) pid_locked_files: PidLockedFiles,
 }
 
 impl Default for ServerContext {
@@ -47,9 +48,7 @@ impl ServerContext {
     workspace_uri: &Url,
   ) -> Result<(Url, Arc<Session>), MakepadAnalyzerError> {
     let session = self.url_to_session(workspace_uri).await?;
-    // let uri = session.sync.workspace_to_temp_url(workspace_uri)?;
-    // Ok((uri, session));
-    todo!()
+    Ok((workspace_uri.clone(), session))
   }
 
   async fn url_to_session(&self, uri: &Url) -> Result<Arc<Session>, MakepadAnalyzerError> {
@@ -59,10 +58,16 @@ impl ServerContext {
     //   return Ok(session);
     // }
 
+    let path = PathBuf::from(uri.path());
+    if let Some(session) = self.session_manager.cache().get(&path) {
+      return Ok(session);
+    }
+
     // If no session is found, create a new session
     let session = Arc::new(Session::new());
+    self.session_manager.cache().insert(path, Arc::clone(&session));
 
-    todo!()
+    return Ok(session);
   }
 
   pub fn shutdown_analyzer(&self) -> jsonrpc::Result<()> {

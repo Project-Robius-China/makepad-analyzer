@@ -1,14 +1,15 @@
 mod session;
 mod lru_session_cache;
 mod utils;
+mod sync;
+
+pub use session::*;
+pub use sync::*;
 
 use std::sync::Arc;
 
 use lru_session_cache::LRUSessionCache;
 use tokio::{sync::Notify, time::{sleep, Duration}};
-
-
-pub use session::*;
 
 const DEFAULT_SESSION_CACHE_SIZE: usize = 7;  // 7 sessions
 const DEFAULT_AUTO_CLEANUP_INTERVAL: Duration = Duration::from_secs(60 * 60);  // 1 hour
@@ -16,6 +17,7 @@ const DEFAULT_AUTO_CLEANUP_INTERVAL: Duration = Duration::from_secs(60 * 60);  /
 pub struct SessionManager {
   sessions_cache: LRUSessionCache,
   auto_cleanup_interval: Duration,
+  // sync: SyncWorkspace,
   stop_signal: Arc<Notify>
 }
 

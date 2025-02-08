@@ -36,8 +36,6 @@ impl LanguageServer for ServerContext {
   }
 
   async fn did_close(&self, params: DidCloseTextDocumentParams) {
-    if let Err(err) = notification::handle_did_close_text_document(self, params).await {
-      tracing::error!("Error handling didClose notification: {:?}", err);
-    }
+    tracing::info!("Closed document: {:?}", params.text_document.uri.path());
   }
 }

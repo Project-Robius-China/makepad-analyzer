@@ -1,3 +1,6 @@
+mod utils;
+pub mod pid_locked_files;
+
 use dashmap::DashMap;
 use lsp_types::{Position, Range, TextDocumentContentChangeEvent, Url};
 use makepad_analyzer_core::errors::{DocumentError, MakepadAnalyzerError};
