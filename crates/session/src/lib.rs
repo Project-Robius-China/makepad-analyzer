@@ -1,5 +1,6 @@
 mod session;
 mod lru_session_cache;
+mod utils;
 
 use std::sync::Arc;
 
@@ -57,6 +58,10 @@ impl SessionManager {
 
   pub fn builder() -> SessionManagerBuilder {
     SessionManagerBuilder::new()
+  }
+
+  pub fn cache(&self) -> &LRUSessionCache {
+    &self.sessions_cache
   }
 
   pub fn stop(&self) {
@@ -150,14 +155,14 @@ mod tests {
     assert!(session_manager.sessions_cache.get(&inactived_session_path2).is_some());
 
     // Mark session inactive
-    session_manager.sessions_cache.mark_session_inactive(&inactived_session_path1);
+    session_manager.sessions_cache.mark_session_inactived(&inactived_session_path1);
 
     sleep(Duration::from_secs(3)).await;
 
     tracing::info!("Current cache usage: {}", session_manager.sessions_cache.current_usage()); // shuld be 0.8
     assert!(session_manager.sessions_cache.get(&inactived_session_path1).is_none());
 
-    session_manager.sessions_cache.mark_session_inactive(&inactived_session_path2);
+    session_manager.sessions_cache.mark_session_inactived(&inactived_session_path2);
 
     sleep(Duration::from_secs(3)).await;
 

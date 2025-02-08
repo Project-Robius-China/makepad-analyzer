@@ -5,7 +5,7 @@ use anyhow::Result;
 
 /// Handles the `textDocument/didOpen` notification.
 pub async fn handle_did_open_text_document(
-  _cx: &ServerContext,
+  cx: &ServerContext,
   params: DidOpenTextDocumentParams
 ) -> Result<()> {
   tracing::info!("Opened document: {:?}", params.text_document.uri.path());

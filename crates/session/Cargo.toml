@@ -12,6 +12,7 @@ tracing                  = { workspace = true }
 dashmap                  = { workspace = true }
 tokio                    = { workspace = true, features = ["rt-multi-thread", "time", "sync", "macros"] }
 parking_lot              = { workspace = true }
-
+# tower-lsp                = { workspace = true, features = ["proposed"] }
+lsp-types                = { workspace = true }
 [dev-dependencies]
 tracing-test = { workspace = true }

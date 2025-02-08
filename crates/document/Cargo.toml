@@ -1,0 +1,14 @@
+[package]
+description = "makepad analyzer document"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-document"
+version     = "0.0.1"
+
+[dependencies]
+makepad-analyzer-core    = { workspace = true }
+makepad-analyzer-tracing = { workspace = true }
+
+tokio                    = { workspace = true, features = ["rt-multi-thread", "macros", "fs", "io-std", "io-util"] }
+lsp-types                = { workspace = true }
+dashmap                  = { workspace = true }

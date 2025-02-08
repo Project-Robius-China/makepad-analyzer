@@ -1,6 +1,6 @@
 use std::{collections::VecDeque, path::PathBuf, sync::Arc};
 
-use dashmap::{mapref::{entry, multiple::RefMulti}, DashMap};
+use dashmap::{mapref::multiple::RefMulti, DashMap};
 use parking_lot::Mutex;
 
 use crate::Session;
@@ -68,10 +68,10 @@ impl LRUSessionCache {
     usage_order.retain(|path| !inactive_sessions.contains(path));
   }
 
-  pub fn mark_session_inactive(&self, path: &PathBuf) {
+  pub fn mark_session_inactived(&self, path: &PathBuf) {
     for entry in self.sessions.iter() {
       if entry.key() == path {
-        entry.value().inactive();
+        entry.value().mark_inactived();
         break;
       }
     }

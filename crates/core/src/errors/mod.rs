@@ -1,6 +1,6 @@
 mod document_error;
 
-use document_error::DocumentError;
+pub use document_error::DocumentError;
 use thiserror::Error;
 
 #[derive(Debug, Error)]

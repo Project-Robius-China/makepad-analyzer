@@ -13,6 +13,7 @@ license       = "MIT"
 # Internal dependencies
 makepad-analyzer-core           = { path = "crates/core", version = "0.0.1" }
 makepad-analyzer-tracing        = { path = "crates/tracing", version = "0.0.1" }
+makepad-analyzer-document       = { path = "crates/document", version = "0.0.1" }
 makepad-analyzer-session        = { path = "crates/session", version = "0.0.1" }
 makepad-analyzer-server         = { path = "crates/server", version = "0.0.1" }
 
@@ -28,9 +29,10 @@ tracing-subscriber  = { version = "0.3" }
 tokio               = { version = "1.0" }
 ansiterm            = { version = "0.12" }
 tower-lsp           = { version = "0.20" }
-lsp-types           = { version = "0.97.0" }
+lsp-types           = { version = "0.94.1" }
 parking_lot         = { version = "0.12" }
 clap                = { version = "4.5" }
 dashmap             = { version = "6.1" }
 once_cell           = { version = "1.20.3" }
 thiserror           = { version = "2.0.11" }
+tracing-test        = { version = "0.2" }
