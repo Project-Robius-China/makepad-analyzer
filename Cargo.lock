@@ -615,6 +615,7 @@ dependencies = [
  "dashmap 6.1.0",
  "lsp-types",
  "makepad-analyzer-core",
+ "makepad-analyzer-document",
  "makepad-analyzer-tracing",
  "parking_lot",
  "tokio",

@@ -1,4 +1,4 @@
-use tower_lsp::{jsonrpc::Result, lsp_types::{DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, InitializeParams, InitializeResult, InitializedParams}, LanguageServer};
+use tower_lsp::{jsonrpc::Result, lsp_types::{CompletionParams, CompletionResponse, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, InitializeParams, InitializeResult, InitializedParams}, LanguageServer};
 
 use crate::{context::ServerContext, handlers::{notification, request}};
 
@@ -16,6 +16,9 @@ impl LanguageServer for ServerContext {
     self.shutdown_analyzer()
   }
 
+  async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
+    request::handle_completion(self, params).await
+  }
 
   async fn did_open(&self, params: DidOpenTextDocumentParams) {
     if let Err(err) = notification::handle_did_open_text_document(self, params).await {

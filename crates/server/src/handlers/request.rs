@@ -60,9 +60,14 @@ pub async fn handle_completion(
     .await
   {
     Ok((uri, session)) => {
+      let text_document = cx.documents.get_text_document(&uri).unwrap();
       Ok(
         session
-        .completion_items(&uri, position, trigger_char)
+        .completion_items(
+          &text_document,
+          position,
+          trigger_char
+        )
         .map(CompletionResponse::Array)
       )
     }
