@@ -5,12 +5,10 @@ use thiserror::Error;
 pub enum DocumentError {
   #[error("No document found at {:?}", path)]
   DocumentNotFound { path: String },
-  #[error("Missing Forc.toml in {:?}", dir)]
+  #[error("Missing Cargo.toml in {:?}", dir)]
   ManifestFileNotFound { dir: String },
   #[error("Cannot get member manifest files for the manifest at {:?}", dir)]
   MemberManifestsFailed { dir: String },
-  #[error("Cannot get lock file path for the manifest at {:?}", dir)]
-  ManifestsLockPathFailed { dir: String },
   #[error("Document is already stored at {:?}", path)]
   DocumentAlreadyStored { path: String },
   #[error("File wasn't able to be created at path {:?} : {:?}", path, err)]
@@ -19,6 +17,8 @@ pub enum DocumentError {
   UnableToWriteFile { path: String, err: String },
   #[error("File wasn't able to be removed at path {:?} : {:?}", path, err)]
   UnableToRemoveFile { path: String, err: String },
+  #[error("Invalid path {:?}", path)]
+  InvalidPath { path: String },
 
   #[error("Permission denied for path {:?}", path)]
   PermissionDenied { path: String },

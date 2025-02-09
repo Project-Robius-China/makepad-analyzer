@@ -1,4 +1,4 @@
-use tower_lsp::{jsonrpc::Result, lsp_types::{CompletionParams, CompletionResponse, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, InitializeParams, InitializeResult, InitializedParams}, LanguageServer};
+use tower_lsp::{jsonrpc::Result, lsp_types::{DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, InitializeParams, InitializeResult, InitializedParams}, LanguageServer};
 
 use crate::{context::ServerContext, handlers::{notification, request}};
 
@@ -13,11 +13,8 @@ impl LanguageServer for ServerContext {
   }
 
   async fn shutdown(&self) -> Result<()> {
-    self.shutdown_analyzer()
-  }
-
-  async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
-    request::handle_completion(self, params).await
+    tracing::info!("Shutting down the Makepad Analyzer");
+    Ok(())
   }
 
   async fn did_open(&self, params: DidOpenTextDocumentParams) {

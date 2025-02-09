@@ -1,6 +1,6 @@
 use makepad_analyzer_core::config::LSPClient;
 use makepad_analyzer_tracing::{tracing_subscriber, FmtSpan, StdioTracingWriter};
-use tower_lsp::lsp_types::{CompletionParams, CompletionResponse, InitializeParams, InitializeResult};
+use tower_lsp::lsp_types::{InitializeParams, InitializeResult};
 use tracing::level_filters::LevelFilter;
 
 use crate::{capablities, context::ServerContext};
@@ -37,43 +37,17 @@ pub fn handle_initialize(
     tracing::info!("Initializing the Makepad Analyzer for Makepad Studio");
   }
 
+  if let Some(workspaces) = &params.workspace_folders {
+    for workspace in workspaces {
+      tracing::info!("Workspace: {:?}", workspace.uri.path());
+    }
+  }
+
+  // TODO: Now we need to judge workspace whether it is Makepad project or not.
+
   Ok(InitializeResult {
     server_info: None,
     capabilities: capablities::server_capabilities(),
     ..InitializeResult::default()
   })
-}
-
-pub async fn handle_completion(
-  cx: &ServerContext,
-  params: CompletionParams,
-) -> Result<Option<CompletionResponse>> {
-  let trigger_char = params
-    .context
-    .as_ref()
-    .and_then(|ctx| ctx.trigger_character.as_deref())
-    .unwrap_or("");
-  let position = params.text_document_position.position;
-
-  match cx
-    .uri_and_session_from_workspace(&params.text_document_position.text_document.uri)
-    .await
-  {
-    Ok((uri, session)) => {
-      let text_document = cx.documents.get_text_document(&uri).unwrap();
-      Ok(
-        session
-        .completion_items(
-          &text_document,
-          position,
-          trigger_char
-        )
-        .map(CompletionResponse::Array)
-      )
-    }
-    Err(err) => {
-      tracing::error!("{}", err.to_string());
-      Ok(None)
-    }
-  }
 }

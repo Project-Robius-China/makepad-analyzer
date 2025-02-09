@@ -1,11 +1,10 @@
-use std::{path::PathBuf, sync::Arc};
+use std::sync::Arc;
 
-use makepad_analyzer_core::{config::Config, errors::MakepadAnalyzerError};
-use makepad_analyzer_document::Documents;
-use makepad_analyzer_session::{Session, SessionManager};
+use makepad_analyzer_core::config::Config;
+use makepad_analyzer_session::SessionManager;
 use once_cell::sync::Lazy;
 use parking_lot::RwLock;
-use tower_lsp::{jsonrpc, lsp_types::Url, Client};
+use tower_lsp::Client;
 
 const DEFAULT_SESSION_CACHE_SIZE: usize = 7;
 static SESSION_MANAGER: Lazy<Arc<SessionManager>> = Lazy::new(|| {
@@ -18,9 +17,7 @@ pub struct ServerContext {
   pub(crate) client: Option<Client>,
   pub config: Arc<RwLock<Config>>,
 
-  pub documents: Documents,
   pub session_manager: &'static SessionManager,
-  // pub(crate) pid_locked_files: PidLockedFiles,
 }
 
 impl Default for ServerContext {
@@ -28,7 +25,6 @@ impl Default for ServerContext {
     let context = ServerContext {
       client: None,
       config: Arc::new(RwLock::new(Config::default())),
-      documents: Documents::new(),
       session_manager: &*SESSION_MANAGER
     };
     context
@@ -41,38 +37,6 @@ impl ServerContext {
       client: Some(client),
       ..Default::default()
     }
-  }
-
-  pub async fn uri_and_session_from_workspace(
-    &self,
-    workspace_uri: &Url,
-  ) -> Result<(Url, Arc<Session>), MakepadAnalyzerError> {
-    let session = self.url_to_session(workspace_uri).await?;
-    Ok((workspace_uri.clone(), session))
-  }
-
-  async fn url_to_session(&self, uri: &Url) -> Result<Arc<Session>, MakepadAnalyzerError> {
-
-    // Check if the session is already in the cache
-    // if let Some(session) = self.session_manager.sessions.get(&uri) {
-    //   return Ok(session);
-    // }
-
-    let path = PathBuf::from(uri.path());
-    if let Some(session) = self.session_manager.cache().get(&path) {
-      return Ok(session);
-    }
-
-    // If no session is found, create a new session
-    let session = Arc::new(Session::new());
-    self.session_manager.cache().insert(path, Arc::clone(&session));
-
-    return Ok(session);
-  }
-
-  pub fn shutdown_analyzer(&self) -> jsonrpc::Result<()> {
-    tracing::info!("Shutting down the Makepad Analyzer");
-    Ok(())
   }
 }
 

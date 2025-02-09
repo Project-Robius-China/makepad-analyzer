@@ -612,6 +612,7 @@ dependencies = [
 name = "makepad-analyzer-session"
 version = "0.0.1"
 dependencies = [
+ "anyhow",
  "dashmap 6.1.0",
  "lsp-types",
  "makepad-analyzer-core",
@@ -621,6 +622,7 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-test",
+ "url",
 ]
 
 [[package]]
