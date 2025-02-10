@@ -1,4 +1,4 @@
-mod utils;
+pub mod utils;
 pub mod pid_locked_files;
 
 use dashmap::DashMap;
@@ -203,7 +203,6 @@ impl std::ops::Deref for Documents {
     &self.0
   }
 }
-
 
 #[cfg(test)]
 mod tests {

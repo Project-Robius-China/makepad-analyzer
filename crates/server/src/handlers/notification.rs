@@ -7,13 +7,19 @@ pub async fn handle_did_open_text_document(
   cx: &ServerContext,
   params: DidOpenTextDocumentParams
 ) -> Result<(), MakepadAnalyzerError> {
-  tracing::info!("Opened document: {:?}", params.text_document.uri);
+  tracing::info!("Opened document: {:?}", params.text_document.uri.path());
+
+  // Get the URI and session from the workspace.
   let (uri, session) = cx
     .session_manager
     .uri_and_session_from_workspace(&params.text_document.uri)
     .await?;
+
+  cx.session_manager.documents.handle_open_file(&uri).await;
+
   tracing::info!("URI: {:?}", uri);
-  tracing::info!("Session: {:?}", *session);
+  tracing::info!("Session: {:?}", session);
+
   Ok(())
 }
 

@@ -1,13 +1,17 @@
 use std::sync::atomic::{AtomicBool, Ordering::Relaxed};
 
+use crate::SyncWorkspace;
+
 #[derive(Debug)]
 pub struct Session {
   pub is_active: AtomicBool,
+  pub sync: SyncWorkspace,
 }
 
 impl Session {
   pub fn new () -> Self {
     Session {
+      sync: SyncWorkspace::new(),
       is_active: AtomicBool::new(true),
     }
   }

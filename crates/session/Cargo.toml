@@ -17,5 +17,6 @@ anyhow                    = { workspace = true }
 # tower-lsp                = { workspace = true, features = ["proposed"] }
 lsp-types                 = { workspace = true }
 url                       = { workspace = true, features = ["serde"] }
+urlencoding               = { workspace = true }
 [dev-dependencies]
 tracing-test = { workspace = true }

@@ -38,9 +38,12 @@ pub fn handle_initialize(
   }
 
   if let Some(workspaces) = &params.workspace_folders {
+    let mut workspaces_id = 0;
     for workspace in workspaces {
-      tracing::info!("Workspace: {:?}", workspace.uri.path());
+      tracing::info!("Workspace {}: {:?}", workspaces_id, workspace.uri.path());
+      workspaces_id += 1;
     }
+    tracing::info!("Makepad Analyzer got {} workspaces", workspaces_id);
   }
 
   // TODO: Now we need to judge workspace whether it is Makepad project or not.

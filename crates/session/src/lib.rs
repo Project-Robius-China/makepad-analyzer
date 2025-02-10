@@ -1,16 +1,15 @@
 mod session;
 mod lru_session_cache;
-mod utils;
 mod sync;
 
 use dashmap::DashMap;
 use lsp_types::Url;
-use makepad_analyzer_core::errors::{DirectoryError, DocumentError, MakepadAnalyzerError};
+use makepad_analyzer_core::{errors::{DirectoryError, DocumentError, MakepadAnalyzerError}, manifest::MakepadManifestFile};
+use makepad_analyzer_document::Documents;
 pub use session::*;
 pub use sync::*;
-use utils::MakepadManifestFile;
 
-use std::{path::PathBuf, sync::Arc};
+use std::{path::{Path, PathBuf}, sync::Arc};
 
 use lru_session_cache::LRUSessionCache;
 use tokio::{sync::Notify, time::{sleep, Duration}};
@@ -19,8 +18,9 @@ const DEFAULT_SESSION_CACHE_SIZE: usize = 7;  // 7 sessions
 const DEFAULT_AUTO_CLEANUP_INTERVAL: Duration = Duration::from_secs(60 * 60);  // 1 hour
 
 pub struct SessionManager {
-  cache: LRUSessionCache,
-  manifest_cache: DashMap<Url, Arc<PathBuf>>,
+  pub cache: LRUSessionCache,
+  pub documents: Documents,
+  pub manifest_cache: DashMap<Url, Arc<PathBuf>>,
 
   pub(crate) auto_cleanup_interval: Duration,
   pub(crate) stop_signal: Arc<Notify>
@@ -33,6 +33,7 @@ impl SessionManager {
   ) -> Arc<SessionManager> {
     let session_manager = Arc::new(SessionManager {
       cache,
+      documents: Documents::new(),
       manifest_cache: DashMap::new(),
       auto_cleanup_interval,
       stop_signal: Arc::new(Notify::new())
@@ -77,7 +78,7 @@ impl SessionManager {
     workspace_uri: &Url,
   ) -> Result<(Url, Arc<Session>), MakepadAnalyzerError> {
     let session = self.url_to_session(workspace_uri).await?;
-    let uri = workspace_uri.clone();
+    let uri = session.sync.workspace_to_temp_url(workspace_uri)?;
     Ok((uri, session))
   }
 
@@ -101,7 +102,6 @@ impl SessionManager {
                 .ok_or(DirectoryError::ManifestDirNotFound)?
                 .to_path_buf(),
       );
-
       self.manifest_cache.insert(uri.clone(), dir.clone());
       dir
     };
