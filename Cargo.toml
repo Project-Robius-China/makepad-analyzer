@@ -39,3 +39,4 @@ tracing-test        = { version = "0.2" }
 url                 = { version = "2.2" }
 urlencoding         = { version = "2.1.3"}
 toml                = { version = "0.8.20"}
+tempfile            = { version = "3" }

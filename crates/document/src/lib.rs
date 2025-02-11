@@ -110,6 +110,7 @@ impl TextDocument {
   }
 }
 
+#[derive(Debug)]
 pub struct Documents(DashMap<String, TextDocument>);
 
 impl Default for Documents {
@@ -126,6 +127,7 @@ impl Documents {
   pub async fn handle_open_file(&self, uri: &Url) {
     if !self.contains_key(uri.path()) {
       if let Ok(text_document) = TextDocument::build_from_path(uri.path()).await {
+        tracing::info!("text_document: {:?}", text_document);
         let _ = self.store_document(text_document);
       }
     }

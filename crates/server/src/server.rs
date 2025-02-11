@@ -1,4 +1,4 @@
-use tower_lsp::{jsonrpc::Result, lsp_types::{DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, InitializeParams, InitializeResult, InitializedParams}, LanguageServer};
+use tower_lsp::{jsonrpc::Result, lsp_types::{CompletionParams, CompletionResponse, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams, InitializeParams, InitializeResult, InitializedParams}, LanguageServer};
 
 use crate::{context::ServerContext, handlers::{notification, request}};
 
@@ -37,5 +37,9 @@ impl LanguageServer for ServerContext {
 
   async fn did_close(&self, params: DidCloseTextDocumentParams) {
     tracing::info!("Closed document: {:?}", params.text_document.uri.path());
+  }
+
+  async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
+    request::handle_completion(&self, params).await
   }
 }

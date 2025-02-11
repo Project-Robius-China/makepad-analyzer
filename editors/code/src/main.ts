@@ -39,42 +39,42 @@ export function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  // const completionProvider = vscode.languages.registerCompletionItemProvider(
-  //   { scheme: "file", language: "rust" },
-  //   {
-  //     provideCompletionItems: async (document, position, token, context) => {
-  //       const result = await client.sendRequest("textDocument/completion", {
-  //         textDocument: { uri: document.uri.toString() },
-  //         position: client.code2ProtocolConverter.asPosition(position),
-  //         context
-  //       });
+  const completionProvider = vscode.languages.registerCompletionItemProvider(
+    { scheme: "file", language: "rust" },
+    {
+      provideCompletionItems: async (document, position, token, context) => {
+        const result = await client.sendRequest("textDocument/completion", {
+          textDocument: { uri: document.uri.toString() },
+          position: client.code2ProtocolConverter.asPosition(position),
+          context
+        });
 
-  //       if (Array.isArray(result)) {
-  //         console.log("Got completion items", result);
-  //         return result.map(item => {
-  //           const vscodeCompletionItem = new vscode.CompletionItem(
-  //             item.label,
-  //             item.kind
-  //           );
+        if (Array.isArray(result)) {
+          console.log("Got completion items", result);
+          return result.map(item => {
+            const vscodeCompletionItem = new vscode.CompletionItem(
+              item.label,
+              item.kind
+            );
 
-  //           if (item.detail) {
-  //             vscodeCompletionItem.detail = item.detail;
-  //           }
-  //           if (item.documentation) {
-  //             vscodeCompletionItem.documentation = item.documentation;
-  //           }
+            if (item.detail) {
+              vscodeCompletionItem.detail = item.detail;
+            }
+            if (item.documentation) {
+              vscodeCompletionItem.documentation = item.documentation;
+            }
 
-  //           console.log("Returning completion item", vscodeCompletionItem);
+            console.log("Returning completion item", vscodeCompletionItem);
 
-  //           return vscodeCompletionItem;
-  //         });
-  //       };
-  //       return [];
-  //     },
-  //   },
-  //   ':',
-  //   '/',
-  // );
+            return vscodeCompletionItem;
+          });
+        };
+        return [];
+      },
+    },
+    ':',
+    '/',
+  );
 
   vscode.workspace.onDidOpenTextDocument(document => {
     console.log("Opened document", document.uri.toString());
@@ -88,7 +88,7 @@ export function activate(context: vscode.ExtensionContext) {
     })
   })
 
-  // context.subscriptions.push(completionProvider);
+  context.subscriptions.push(completionProvider);
 
   client = new LanguageClient("makepad-analyzer", "Makepad Analyzer", serverOptions, clientOptions);
 

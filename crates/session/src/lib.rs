@@ -97,8 +97,6 @@ impl SessionManager {
         }
       })?;
 
-      tracing::info!("I'm go here");
-
       let dir = Arc::new(
         manifest
                 .path()
@@ -115,6 +113,7 @@ impl SessionManager {
     }
 
     let session = Arc::new(Session::new());
+    session.init(uri, &self.documents).await?;
     self.cache.insert((*manifest_dir).clone(), session.clone());
 
     Ok(session)
