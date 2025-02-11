@@ -60,9 +60,16 @@ mod tests {
   fn test_find_cargo_toml() {
     let dir = Path::new("D:\\projects\\project-robius\\robrix\\src\\login\\login_screen.rs");
     let dir2 = Path::new("E:\\makepad\\examples\\simple\\src\\app.rs");
+    let dir3 = Path::new("/d%3A/projects/project-robius/robrix/src/sliding_sync.rs");
 
     let cargo_toml = MakepadManifestFile::find_cargo_toml(dir);
     let cargo_toml2 = MakepadManifestFile::find_cargo_toml(dir2);
+    let cargo_toml3 = MakepadManifestFile::find_cargo_toml(dir3);
+
+    println!("{:?}", cargo_toml);
+    println!("{:?}", cargo_toml2);
+    println!("{:?}", cargo_toml3);
+
     assert_eq!(cargo_toml, Some(PathBuf::from("D:\\projects\\project-robius\\robrix\\Cargo.toml")));
     assert_eq!(cargo_toml2, Some(PathBuf::from("E:\\makepad\\examples\\simple\\Cargo.toml")));
   }

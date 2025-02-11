@@ -15,7 +15,7 @@ pub async fn handle_did_open_text_document(
     .uri_and_session_from_workspace(&params.text_document.uri)
     .await?;
 
-  cx.session_manager.documents.handle_open_file(&uri).await;
+  // cx.session_manager.documents.handle_open_file(&uri).await;
 
   tracing::info!("URI: {:?}", uri);
   tracing::info!("Session: {:?}", session);

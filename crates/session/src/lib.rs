@@ -77,6 +77,8 @@ impl SessionManager {
     &self,
     workspace_uri: &Url,
   ) -> Result<(Url, Arc<Session>), MakepadAnalyzerError> {
+    // workspace_uri = "/d%3A/projects/project-robius/robrix/src/sliding_sync.rs"
+
     let session = self.url_to_session(workspace_uri).await?;
     let uri = session.sync.workspace_to_temp_url(workspace_uri)?;
     Ok((uri, session))
@@ -94,6 +96,8 @@ impl SessionManager {
           dir: path.to_string_lossy().to_string(),
         }
       })?;
+
+      tracing::info!("I'm go here");
 
       let dir = Arc::new(
         manifest
