@@ -1,0 +1,14 @@
+[package]
+description = "makepad analyzer parser"
+edition     = "2021"
+license     = "MIT"
+name        = "makepad-analyzer-parser"
+version     = "0.0.1"
+
+[dependencies]
+makepad-analyzer-core      = { workspace = true }
+makepad-analyzer-tracing   = { workspace = true }
+dashmap                    = { workspace = true }
+lsp-types                  = { workspace = true }
+
+makepad-derive-live        = "0.4.0"

@@ -1,9 +1,9 @@
-use std::{ffi::OsStr, fs, path::{self, Path, PathBuf}, sync::atomic::{AtomicBool, Ordering::Relaxed}};
+use std::{ffi::OsStr, fs, path::{Path, PathBuf}, sync::atomic::{AtomicBool, Ordering::Relaxed}};
 
 use lsp_types::{CompletionItem, CompletionItemKind, Position};
 use makepad_analyzer_core::errors::MakepadAnalyzerError;
 use makepad_analyzer_document::{Documents, TextDocument};
-use tracing::info;
+// use makepad_analyzer_parser::TokenMap;
 use url::Url;
 
 use crate::SyncWorkspace;
@@ -12,13 +12,15 @@ pub type ProjectDirectory = PathBuf;
 
 #[derive(Debug)]
 pub struct Session {
-  pub is_active: AtomicBool,
+  // token_map: TokenMap,
   pub sync: SyncWorkspace,
+  pub is_active: AtomicBool,
 }
 
 impl Session {
   pub fn new () -> Self {
     Session {
+      // token_map: TokenMap::new(),
       sync: SyncWorkspace::new(),
       is_active: AtomicBool::new(true),
     }
@@ -31,10 +33,16 @@ impl Session {
   ) -> Result<ProjectDirectory, MakepadAnalyzerError> {
     let manifest_dir = PathBuf::from(uri.path());
 
+    // create a temp directory from the workspace
     self.sync.create_temp_dir_from_workspace(&manifest_dir)?;
+    // clone the manifest directory to the temp directory
     self.sync.clone_manifest_dir_to_temp()?;
+
+    // store all project files in the documents (workspace)
     let _ = self.store_project_files(documents).await?;
     // self.sync.watch_and_sync_manifest();
+
+    // return the manifest directory
     self.sync.manifest_dir().map_err(Into::into)
   }
 
@@ -45,6 +53,10 @@ impl Session {
   pub fn is_active(&self) -> bool {
     self.is_active.load(Relaxed)
   }
+
+  // pub fn token_map(&self) -> &TokenMap {
+  //   &self.token_map
+  // }
 
   async fn store_project_files(
     &self,
@@ -64,7 +76,7 @@ impl Session {
     position: Position,
     trigger_char: &str,
   ) -> Option<Vec<CompletionItem>> {
-    let shifted_position = Position {
+    let _shifted_position = Position {
       line: position.line,
       character: position.character - trigger_char.len() as u32 - 1,
     };

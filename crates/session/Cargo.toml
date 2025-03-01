@@ -9,6 +9,7 @@ version     = "0.0.1"
 makepad-analyzer-core     = { workspace = true }
 makepad-analyzer-tracing  = { workspace = true }
 makepad-analyzer-document = { workspace = true }
+makepad-analyzer-parser   = { workspace = true }
 tracing                   = { workspace = true }
 dashmap                   = { workspace = true }
 tokio                     = { workspace = true, features = ["rt-multi-thread", "time", "sync", "macros"] }

@@ -3,6 +3,7 @@ use crate::context::ServerContext;
 use makepad_analyzer_core::errors::MakepadAnalyzerError;
 use tower_lsp::lsp_types::{DidChangeTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams};
 
+/// Handles the `textDocument/didOpen` notification.
 pub async fn handle_did_open_text_document(
   cx: &ServerContext,
   params: DidOpenTextDocumentParams

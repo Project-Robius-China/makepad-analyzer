@@ -15,6 +15,7 @@ makepad-analyzer-core           = { path = "crates/core", version = "0.0.1" }
 makepad-analyzer-tracing        = { path = "crates/tracing", version = "0.0.1" }
 makepad-analyzer-document       = { path = "crates/document", version = "0.0.1" }
 makepad-analyzer-session        = { path = "crates/session", version = "0.0.1" }
+makepad-analyzer-parser         = { path = "crates/parser", version = "0.0.1" }
 makepad-analyzer-server         = { path = "crates/server", version = "0.0.1" }
 
 # Internal plugin dependencies

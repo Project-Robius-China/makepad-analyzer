@@ -628,6 +628,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "makepad-analyzer-parser"
+version = "0.0.1"
+dependencies = [
+ "dashmap 6.1.0",
+ "lsp-types",
+ "makepad-analyzer-core",
+ "makepad-analyzer-tracing",
+ "makepad-derive-live",
+]
+
+[[package]]
 name = "makepad-analyzer-server"
 version = "0.0.1"
 dependencies = [
@@ -655,6 +666,7 @@ dependencies = [
  "lsp-types",
  "makepad-analyzer-core",
  "makepad-analyzer-document",
+ "makepad-analyzer-parser",
  "makepad-analyzer-tracing",
  "parking_lot",
  "tempfile",
@@ -674,6 +686,47 @@ dependencies = [
  "tracing-subscriber",
  "tracing-test",
 ]
+
+[[package]]
+name = "makepad-derive-live"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a7eda9797925ebd748af16839ebc15065e6e1fc36f77b21b72a3516205800893"
+dependencies = [
+ "makepad-live-id",
+ "makepad-micro-proc-macro",
+]
+
+[[package]]
+name = "makepad-error-log"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d89b4c50203ed39d127e20ffa954f22bd85e984ac18639b45d139ff88831702"
+
+[[package]]
+name = "makepad-live-id"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2de52f92d9760ea4d49aa1b806c3b30d53a799d8136b4761419156473865a471"
+dependencies = [
+ "makepad-error-log",
+ "makepad-live-id-macros",
+]
+
+[[package]]
+name = "makepad-live-id-macros"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ecc69d4863321dc375dec0826af00283e372b9445afc9361906638dfeb8c2fc0"
+dependencies = [
+ "makepad-micro-proc-macro",
+]
+
+[[package]]
+name = "makepad-micro-proc-macro"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d57e7c2bbb66808b799794cc1bbd7cd296aba3042e4e81ef2e087bd8a7804905"
 
 [[package]]
 name = "matchers"

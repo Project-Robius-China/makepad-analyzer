@@ -19,7 +19,7 @@ const DEFAULT_AUTO_CLEANUP_INTERVAL: Duration = Duration::from_secs(60 * 60);  /
 
 pub struct SessionManager {
   pub cache: LRUSessionCache,
-  pub documents: Documents,
+  pub documents: Documents, /// all workspace documents
   pub manifest_cache: DashMap<Url, Arc<PathBuf>>,
 
   pub(crate) auto_cleanup_interval: Duration,
@@ -77,8 +77,6 @@ impl SessionManager {
     &self,
     workspace_uri: &Url,
   ) -> Result<(Url, Arc<Session>), MakepadAnalyzerError> {
-    // workspace_uri = "/d%3A/projects/project-robius/robrix/src/sliding_sync.rs"
-
     let session = self.url_to_session(workspace_uri).await?;
     let uri = session.sync.workspace_to_temp_url(workspace_uri)?;
     Ok((uri, session))
@@ -113,7 +111,12 @@ impl SessionManager {
     }
 
     let session = Arc::new(Session::new());
+
+    tracing::info!("Current URI: {:?}", uri);
+
     session.init(uri, &self.documents).await?;
+
+    // store the session in the cache
     self.cache.insert((*manifest_dir).clone(), session.clone());
 
     Ok(session)
